@@ -1,11 +1,11 @@
-from services.interfaces import INotificationService
-from utils.logger import setup_logger
 
-logger = setup_logger("NotificationService")
+import logging
+from services.interfaces import INotificationService
+
+logger = logging.getLogger(__name__)
 
 class NotificationService(INotificationService):
     def notify(self, message: str):
-        # Default fallback
         logger.info(f"[NOTIFICATION] {message}")
 
     def notify_email(self, recipient: str, message: str):

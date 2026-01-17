@@ -1,11 +1,12 @@
+
 import uuid
+import logging
 from models.payment import Payment
 from enums.payment_mode import PaymentMode
 from repositories.in_memory_repository import InMemoryRepository
 from services.interfaces import IPaymentService
-from utils.logger import setup_logger
 
-logger = setup_logger("PaymentService")
+logger = logging.getLogger(__name__)
 
 class PaymentService(IPaymentService):
     def __init__(self, repo: InMemoryRepository[Payment]):
@@ -15,7 +16,6 @@ class PaymentService(IPaymentService):
         payment_id = str(uuid.uuid4())
         payment = Payment(id=payment_id, order_id=order_id, amount=amount, mode=mode)
         
-        # Log the transaction as requested
         logger.info(f"[PaymentGateway] Processing {mode.value} payment of INR {amount} for Order {order_id}...")
         logger.info(f"[PaymentGateway] Transaction {payment_id} SUCCESS.")
         

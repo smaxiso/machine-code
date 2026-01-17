@@ -1,6 +1,7 @@
 
 import unittest
 import time
+import logging
 from repositories.in_memory_repository import InMemoryRepository
 from services.customer_service import CustomerService
 from services.driver_service import DriverService
@@ -13,10 +14,9 @@ from enums.order_status import OrderStatus
 from enums.driver_status import DriverStatus
 from enums.payment_mode import PaymentMode
 from strategies.matching_strategy import FirstAvailableMatchingStrategy
-from utils.logger import setup_logger
 
-# Disable logging for tests to keep output clean, or redirect if needed
-logger = setup_logger("IntegrationTest")
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("IntegrationTest")
 
 class TestIntegration(unittest.TestCase):
     def setUp(self):

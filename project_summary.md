@@ -93,13 +93,13 @@ peer-to-peer/
 ## Execution Guide
 Run the main demonstration script:
 ```bash
-python3 main.py
+python main.py
 ```
 This script runs a comprehensive scenario covering happy paths, edge cases (no driver), concurency, and bonus features.
 
 ## Running Unit Tests
 To run the mock-based unit tests for OrderService and AssignmentService:
 ```bash
-PYTHONPATH=sumits python3 -m unittest discover sumits/tests
+PYTHONPATH=sumits python -m unittest discover sumits/tests
 ```
 (This gathers and runs Unit, Integration, and Stress tests automatically)

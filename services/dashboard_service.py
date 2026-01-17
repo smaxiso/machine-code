@@ -1,18 +1,14 @@
+
 from typing import List
 from models.driver import Driver
 from services.driver_service import DriverService
-from utils.config_loader import ConfigLoader
-
 from services.interfaces import IDashboardService
 
 class DashboardService(IDashboardService):
     def __init__(self, driver_service: DriverService):
         self.driver_service = driver_service
 
-    def get_top_drivers(self, limit: int = None, by_rating: bool = True) -> List[Driver]:
-        if limit is None:
-            limit = ConfigLoader().get("dashboard_top_drivers_limit", 5)
-
+    def get_top_drivers(self, limit: int = 5, by_rating: bool = True) -> List[Driver]:
         drivers = self.driver_service.get_all_drivers()
         if by_rating:
             return sorted(drivers, key=lambda d: d.rating, reverse=True)[:limit]

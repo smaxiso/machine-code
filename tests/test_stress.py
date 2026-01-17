@@ -2,6 +2,7 @@
 import unittest
 import threading
 import time
+import logging
 from repositories.in_memory_repository import InMemoryRepository
 from services.customer_service import CustomerService
 from services.driver_service import DriverService
@@ -13,9 +14,9 @@ from enums.item_type import ItemType
 from enums.order_status import OrderStatus
 from enums.driver_status import DriverStatus
 from strategies.matching_strategy import FirstAvailableMatchingStrategy
-from utils.logger import setup_logger
 
-logger = setup_logger("StressTest")
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("StressTest")
 
 class TestStress(unittest.TestCase):
     def setUp(self):
@@ -67,9 +68,6 @@ class TestStress(unittest.TestCase):
         self.assertEqual(len(errors), 0, f"Errors occurred: {errors}")
         
         # Check Assignment Logic
-        # Exactly 2 drivers exist, so exactly 2 orders should be in ASSIGNED state
-        # The rest (48) should be PENDING
-        
         assigned_count = 0
         pending_count = 0
         
