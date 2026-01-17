@@ -197,6 +197,9 @@ class OrderService(IOrderService):
                 f"Order {order_id} delivered successfully by Driver {order.driver_id}"
             )
             
+            # Trigger assignment for any pending orders
+            self.assignment.on_driver_available(order.driver_id)
+            
     def cancel_order(self, order_id: str) -> None:
         """
         Cancel an order (only if not yet picked up).
