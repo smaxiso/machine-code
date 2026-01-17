@@ -9,6 +9,8 @@ class Order:
     id: str
     customer_id: str
     item: ItemType
+    quantity: int = 1
+    weight: float = 0.0
     driver_id: Optional[str] = None
     status: OrderStatus = OrderStatus.PENDING
     created_at: float = field(default_factory=time.time)

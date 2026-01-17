@@ -34,18 +34,28 @@ class OrderService(IOrderService):
         self.payment_service = payment_service
         self.customer_service = customer_service
 
-    def create_order(self, order_id: str, customer_id: str, item: ItemType) -> Order:
+    MAX_QUANTITY = 10
+    MAX_WEIGHT = 50.0
+
+    def create_order(self, order_id: str, customer_id: str, item: ItemType, quantity: int = 1, weight: float = 0.0) -> Order:
         if self.repo.get(order_id):
             raise DuplicateOrderException(order_id)
 
         if not isinstance(item, ItemType):
             raise InvalidItemTypeException(item, [e.value for e in ItemType])
+        
+        # Guardrails
+        if quantity > self.MAX_QUANTITY:
+            raise ValueError(f"Order quantity {quantity} exceeds maximum limit of {self.MAX_QUANTITY}")
+        
+        if weight > self.MAX_WEIGHT:
+            raise ValueError(f"Order weight {weight}kg exceeds maximum limit of {self.MAX_WEIGHT}kg")
 
         customer = self.customer_service.get_customer(customer_id)
         if not customer:
             raise CustomerNotFoundException(customer_id)
 
-        order = Order(id=order_id, customer_id=customer_id, item=item)
+        order = Order(id=order_id, customer_id=customer_id, item=item, quantity=quantity, weight=weight)
         self.repo.save(order_id, order)
         
         self.notification.notify_email(f"{customer_id}@email.com", f"Order {order_id} placed successfully.")

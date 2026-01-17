@@ -70,5 +70,21 @@ class TestOrderService(unittest.TestCase):
         with self.assertRaises(InvalidOrderStateException):
             self.service.pickup_order("D1", "O1")
 
+    def test_create_order_exceeds_quantity_throws(self):
+        # Arrange
+        self.repo.get.return_value = None
+
+        # Act & Assert
+        with self.assertRaises(ValueError):
+            self.service.create_order("O1", "C1", ItemType.FOOD, quantity=100)
+
+    def test_create_order_exceeds_weight_throws(self):
+        # Arrange
+        self.repo.get.return_value = None
+
+        # Act & Assert
+        with self.assertRaises(ValueError):
+            self.service.create_order("O1", "C1", ItemType.FOOD, weight=100.0)
+
 if __name__ == '__main__':
     unittest.main()

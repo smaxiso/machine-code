@@ -37,7 +37,7 @@ class IDriverService(ABC):
 
 class IOrderService(ABC):
     @abstractmethod
-    def create_order(self, order_id: str, customer_id: str, item: ItemType) -> Order: pass
+    def create_order(self, order_id: str, customer_id: str, item: ItemType, quantity: int = 1, weight: float = 0.0) -> Order: pass
     
     @abstractmethod
     def get_order(self, order_id: str) -> Optional[Order]: pass

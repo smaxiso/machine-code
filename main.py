@@ -124,6 +124,19 @@ def main():
         old_order = order_service.get_order("O_OLD")
         logger.info(f"Old Order Status: {old_order.status}")
 
+        logger.info("--- Guardrail Test ---")
+        try:
+            logger.info("Attempting to create order with 100kg weight (Max 50kg)...")
+            order_service.create_order("O_FAIL_W", c1.id, ItemType.FOOD, weight=100.0)
+        except ValueError as e:
+            logger.info(f"Caught expected guardrail error: {e}")
+
+        try:
+            logger.info("Attempting to create order with quantity 20 (Max 10)...")
+            order_service.create_order("O_FAIL_Q", c1.id, ItemType.FOOD, quantity=20)
+        except ValueError as e:
+            logger.info(f"Caught expected guardrail error: {e}")
+
         logger.info("--- Payment Demo ---")
         order_service.process_order_payment("O1", 150.00, PaymentMode.UPI)
 
